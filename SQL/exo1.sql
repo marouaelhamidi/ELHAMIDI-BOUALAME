@@ -1,0 +1,172 @@
+/*1*/
+create table DEPT (DEPTNO NUMBER,
+                DNAME VARCHAR2(100) check(DNAME IN ('ACCOUNTING','RESEARCH','SALES','OPERATION')),
+                LOC VARCHAR2(100),
+                CONSTRAINT dept_dn_pk primary key(DEPTNO));
+/*2*/
+INSERT INTO DEPT
+   VALUES (10,'ACCOUNTING','NEW-YORK');                
+
+INSERT INTO DEPT
+   VALUES (10,'ACCOUNTING','NEW-YORK');
+
+INSERT INTO DEPT
+   VALUES (30,'SALES','CHICAGO');                
+
+
+INSERT INTO DEPT
+   VALUES (40,'OPERATION','BOSTON');                
+                       
+/*3*/                       
+create table EMPL AS SELECT * FROM SCOTT.EMP ;
+                       
+/*4*/
+
+INSERT INTO EMPL
+VALUES(7369,'Bidon',NULL,NULL,NULL,NULL,NULL,NULL);
+ /* oui il fonctionne normal  */
+ ROLLBACK;
+/*5*/
+ALTER TABLE EMPL 
+ADD CONSTRAINT empl_empno_pk primary key(EMPNO);
+
+ALTER TABLE EMPL 
+ADD CONSTRAINT empl_deptno_fk foreign key(EMPNO) references DEPT(deptno);
+
+/*6*/
+
+insert into EMPL 
+values
+(7369, 'WILSON', 'MANAGER', 7839, '17/11/9', 3500.00, 600.00, 10) ; 
+(7657, 'WILSON', 'MANAGER', 7839, '17/11/91', 3500.00, 600.00, 10) ;
+(7657, 'WILSON', 'MANAGER', 7000, '17/11/91', 3500.00, 600.00, 10) ;
+(7657, 'WILSON', 'MANAGER', 7839, '17/11/91', 3500.00, 600.00, 10) ; 
+
+/*l insertion est pas marché car on peut pas creet une ligne avec 
+un clé etrangere deptno meme s'il existe pas dans la table DEPT*/
+
+
+-- Mise à jour de la base de données
+
+-- 1
+UPDATE DEPT
+SET LOC = 'PITTSBURGH'
+WHERE DNAME = 'SALES' AND LOC = 'CHICAGO';
+
+-- 2
+UPDATE EMPL
+SET SAL = (10*SAL)/100
+WHERE COMM > (50*SAL)/100;
+
+-- 3
+
+UPDATE EMPL 
+SET COMM = (SELECT AVG(comm) from EMPL)
+WHERE HIREDATE < '01/01/82'
+AND COMM = NULL ;
+
+-- 4
+ROLLBACK ;ROLLBACK ;ROLLBACK ;
+
+-- 5
+DELETE FROM DEPT 
+WHERE DEPTNO = 20;
+
+-- Interrogation de la base de données
+
+-- 1
+ Nom (ENAME), salaire, commission, salaire+commission de tous les vendeurs (SALESMAN). 
+SELECT ENAME , SAL ,COMM , SAL+COMM FROM EMPL
+WHERE JOB = 'SALESMAN'; 
+
+--  2
+SELECT ENAME FROM EMPL
+WHERE JOB = 'SALESMAN'
+ORDER BY COMM/SAL DESC;
+
+--  3
+SELECT ENAME FROM EMPL
+WHERE JOB = 'SALESMAN' AND COMM < 0.25 * (SELECT SAL from EMPL WHERE JOB = 'SALESMAN');
+
+--  4
+SELECT COUNT(*) FROM EMPL
+WHERE DEPTNO = 10 ;
+
+--  5
+SELECT COUNT(*) FROM EMPL
+WHERE COMM <> NULL ;
+
+-- 6
+SELECT COUNT(DISCTINCT JOB ) FROM EMPL
+WHERE COMM <> NULL ;
+
+-- 7
+
+SELECT AVG(SAL) FROM EMPL
+
+--  8
+SELECT SUM(SAL) FROM EMPL
+WHERE DEPTNO = (SELECT DEPTNO FROM DEPT WHERE DNAME LIKE 'SALES');
+
+-- 9
+SELECT ENAME , DNAME FROM EMPL,DEPT 
+WHERE 
+EMPL.DEPTNO = DEPT.DEPTNO; 
+
+-- 10 
+SELECT ENAME,JOB,SAL from EMPL
+WHERE SAL > (SELECT MAX(SAL) FROM EMPL);
+
+--  11 
+
+SELECT ENAME from EMPL
+WHERE SAL > (SELECT SAL FROM EMPL WHERE ENAME = 'JONES');
+
+--  12
+
+SELECT ENAME from EMPL
+WHERE JOB LIKE (SELECT JOB FROM EMPL WHERE ENAME = 'JONES');
+
+--  13 
+
+SELECT ENAME from EMPL
+WHERE MGR LIKE (SELECT MGR FROM EMPL WHERE ENAME = 'CLARK');
+
+--  14 
+
+SELECT ENAME , JOB from EMPL
+WHERE JOB = (SELECT JOB FROM EMPL WHERE ENAME = 'TURNER') AND 
+MGR = (SELECT MGR FROM EMPL WHERE ENAME = 'TURNER')
+
+--  15 
+
+SELECT ENAME from EMPL
+WHERE HIREDATE < (SELECT HIREDATE FROM EMPL WHERE DEPTNO = 10);
+
+--  16 
+
+SELECT ENAME , MGR from EMPL 
+WHERE EMPNO = (SELECT MGR FROM EMPL);
+
+--  17 
+
+SELECT ENAME from EMPL e
+WHERE EMPNO = (SELECT MGR FROM EMPL m WHERE e.DEPTNO <> m.DEPTNO);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
