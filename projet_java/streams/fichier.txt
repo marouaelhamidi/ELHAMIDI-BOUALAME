@@ -1,0 +1,48 @@
+
+
+Yes, you need to close the inputstream if you want your system resources released back.
+
+FileInputStream.close() is what you need.
+shareimprove this answer
+edited May 19 '16 at 7:47
+hd1
+26.5k33 gold badges6060 silver badges7272 bronze badges
+answered Feb 23 '11 at 12:32
+asgs
+3,41155 gold badges3333 silver badges4747 bronze badges
+add a comment
+8
+
+FileInputStream fi=null;
+try {
+    fi=new FileInputStream("c:\\search.xls");
+    Workbook w=Workbook.getWorkbook(fi);
+    Sheet s=w.getSheet(0);
+} finally {
+    if (fi!=null) {
+        fi.close();
+    }
+}
+
+shareimprove this answer
+answered Feb 23 '11 at 12:54
+Axel
+11.9k44 gold badges3636 silver badges6767 bronze badges
+
+    6
+    Just a small comment - you also need to wrap the close() statement with a try/catch as close() declares to throw a checked IOException. In fact, you can't use finally like that. You can only have a try/finally with runtime exceptions. But with checked exceptions like IOException and subclasses of it, you have to have a try/catch or a try/catch/finally... it won't compile with just try/finally. – luis.espinal Feb 23 '11 at 13:23
+    3
+    Depends whether IOException is declared for the method. If you catch it, you should know what to do with it. The important part is putting the close() in a finally block. In fact the automatic handling of this is one of the features I'm really looking forward to seeing in Java 7. – Axel Feb 23 '11 at 14:00
+
+add a comment
+7
+
+You either need to close(), or end your program.
+
+However you can run into confusing issues if you don't close the file as
+
+    sometimes test are run individually or a group of test are run in the same process. (So you could have a test which works one way but not the other)
+    you cannot rename or delete an open file.
+
+It is best practice to always close your resources which you are finished with them, however I see unit tests as scripts which don't always have to follow best practice.
+

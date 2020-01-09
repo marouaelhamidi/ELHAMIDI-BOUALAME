@@ -1,0 +1,26 @@
+package DS1;
+
+import java.util.LinkedList;
+
+public class MyBuffer {
+
+	private int size ;
+	private LinkedList<String> data ;
+	
+	public MyBuffer(int size) {
+		this.size = size;
+	}
+	public synchronized void addWord(String d) {
+		if(this.data.size()<= this.size) {
+			this.data.add(d);
+		}
+		else 
+			System.out.println("IMPOSSIBLE ....");
+	}
+	public void removeOne() {
+		this.data.removeLast();
+	}
+    public String last() {
+    	return this.data.getLast();
+    }
+}

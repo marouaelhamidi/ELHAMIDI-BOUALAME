@@ -1,0 +1,4 @@
+character count : 1579
+words count : 204
+character count : 21
+character count : 5

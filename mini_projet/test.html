@@ -1,0 +1,25 @@
+.container
+  .row
+    .col-md-3
+    .col-md-6
+      .login-box.well
+        form(action='')
+          legend Login Form
+          .form-group
+            label(for='username') Username
+            input#username.form-control(value='', placeholder=' Username', type='text')
+          .form-group
+            label(for='password') Password
+            input#password.form-control(value='', placeholder='Password', type='text')
+          .input-group
+            .checkbox
+              label
+                input#login-remember(type='checkbox', name='remember', value='1')
+                |  Remember
+          .form-group
+            input.btn.btn-default.btn-login-submit.btn-block.m-t-md(type='submit', value='Login')
+          span.text-center
+            a.text-sm(href='#') Forgot Password?
+          .form-group
+            p.text-center.m-t-xs.text-sm Do not have an account?
+            a.btn.btn-default.btn-block.m-t-md(href='#') Create an account

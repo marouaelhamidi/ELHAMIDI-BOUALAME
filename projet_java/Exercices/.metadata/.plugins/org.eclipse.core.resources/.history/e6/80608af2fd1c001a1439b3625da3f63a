@@ -1,0 +1,26 @@
+package DS1;
+
+import java.util.HashMap;
+
+public class Processor implements Runnable{
+private MyBuffer buff ;
+private String Pname;
+private HashMap<String,Integer> wordsCounts;
+	
+	
+public void run() {
+	
+}
+public void processe() {
+	
+}
+public HashMap<String,Integer> getWordsCounts(){
+	return this.wordsCounts;
+}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
