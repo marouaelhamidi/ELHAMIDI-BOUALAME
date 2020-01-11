@@ -8,7 +8,7 @@ const jwt        = require('jsonwebtoken')
 
 var cors = require('cors');
 
-mongoose.connect("mongodb://localhost:27017/MyDbJWT_KEY=WinterIsComingGOT2019",{
+mongoose.connect(process.env.MONGODB_URL,{
   useUnifiedTopology: true,
   useNewUrlParser: true,
   })
@@ -19,7 +19,7 @@ mongoose.connect("mongodb://localhost:27017/MyDbJWT_KEY=WinterIsComingGOT2019",{
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 5000;
 
 const User     = require('./src/models/user');
 
