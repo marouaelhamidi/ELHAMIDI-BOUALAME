@@ -8,7 +8,7 @@ const jwt        = require('jsonwebtoken')
 
 var cors = require('cors');
 
-mongoose.connect("mongodb+srv://este:root@cluster0-pelk3.mongodb.net/test?retryWrites=true&w=majority",{
+mongoose.connect("mongodb://localhost:27017/MyDbJWT_KEY=WinterIsComingGOT2019",{
   useUnifiedTopology: true,
   useNewUrlParser: true,
   })
