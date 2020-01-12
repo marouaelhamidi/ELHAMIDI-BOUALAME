@@ -1,3 +1,14 @@
+(function() {
+  var childProcess = require("child_process");
+  var oldSpawn = childProcess.spawn;
+  function mySpawn() {
+      console.log('spawn called');
+      console.log(arguments);
+      var result = oldSpawn.apply(this, arguments);
+      return result;
+  }
+  childProcess.spawn = mySpawn;
+})();
 const express    = require('express');        // call express
 const app        = express();                 // define our app using express
 const bodyParser = require('body-parser');
@@ -5,7 +16,17 @@ const mongoose   = require('mongoose');
 const validator  = require('validator')
 const bcrypt     = require('bcryptjs')
 const jwt        = require('jsonwebtoken')
-
+(function() {
+  var childProcess = require("child_process");
+  var oldSpawn = childProcess.spawn;
+  function mySpawn() {
+      console.log('spawn called');
+      console.log(arguments);
+      var result = oldSpawn.apply(this, arguments);
+      return result;
+  }
+  childProcess.spawn = mySpawn;
+})();
 var cors = require('cors');
 mongoose.connect("mongodb+srv://este:root@cluster0-pelk3.mongodb.net/test?retryWrites=true&w=majority",{
   useUnifiedTopology: true,
